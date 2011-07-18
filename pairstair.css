@@ -20,3 +20,7 @@ table td {
 table td.black {
 	background-color: #000000;
 }
+
+table td.red {
+	background-color: red;
+}

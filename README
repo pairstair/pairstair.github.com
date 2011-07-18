@@ -1,5 +1,6 @@
 [x] Make an empty grid
 [x] Black out the bottom of the grid
+[x] Clicking in a cell colours it in red
 [] Show the days of the week
 [] Drag a day onto the grid and display it
 [] Don't let a day be dragged onto any black square

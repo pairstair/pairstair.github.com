@@ -6,7 +6,11 @@
 	<script type="text/javascript" src="pairstair.js"></script>
 </head>
 <body>
-	<script type="text/javascript">$().ready(colourEmBlack)</script>
+	<script type="text/javascript">
+		$().ready(function() {
+			PairStair().init();
+		});
+	</script>
 	<h1>Pair Stair</h1>
 	
 	<table class="sample">
