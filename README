@@ -1,6 +1,7 @@
-Make an empty grid
-Black out the bottom of the grid
+x Make an empty grid
+x Black out the bottom of the grid
 Drag a day onto the grid and display it
+Don't let a day be dragged onto any black square
 Don't let 2 days be dragged onto the same square
 Save the state across a refresh
 Add a new name to the matrix
