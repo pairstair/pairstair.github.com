@@ -1,20 +1,17 @@
 PairStair = function() {
 	var rows = $("table tr");
 
-	function setupGrid () {
-		$.each(actionableGrid(), function(idx,row) {
+	function applyToGrid(grid, fn) {
+		$.each(grid, function(idx,row) {
 			 $.each(row, function() {
-				$(this).click(function(){
-					colourRed($(this));
-				});
-			});
-		});
-		
-		$.each(inertGrid(), function(idx,row) {
-			 $.each(row, function() {
-				$(this).addClass("black");
+				fn($(this));
 			});
 		});		
+	};
+
+	function setupGrid () {
+		applyToGrid(actionableGrid(), function(cell) { $(cell).click(function() { $(this).addClass("red"); }); });
+		applyToGrid(inertGrid(), function(cell) { $(cell).addClass("black"); });	
 	}
 	
 	function inertGrid() {
@@ -50,10 +47,6 @@ PairStair = function() {
 			}
 		});
 		return matrix;
-	}
-
-	function colourRed(cell) {
-		cell.addClass("red");
 	}
 	
 	var obj = {
