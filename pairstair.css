@@ -16,3 +16,7 @@ table th {
 table td {
   height: 50px;	
 }
+
+table td.black {
+	background-color: #000000;
+}
