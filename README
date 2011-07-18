@@ -10,3 +10,6 @@
 [] Persist to server
 [] Suggest pairs for the week
 [] Add in specialities
+[] Allow multiple day entries in a cell
+[] Show the days as sticky notes
+[] Show overlapping sticky notes if a cell has more than one entry
