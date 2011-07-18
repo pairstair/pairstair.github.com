@@ -1,0 +1,9 @@
+Make an empty grid
+Black out the bottom of the grid
+Drag a day onto the grid and display it
+Don't let 2 days be dragged onto the same square
+Save the state across a refresh
+Add a new name to the matrix
+Persist to server
+Suggest pairs for the week
+Add in specialities
