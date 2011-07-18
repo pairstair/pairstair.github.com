@@ -1,0 +1,18 @@
+table, table th, table td, table tr {
+	border-width: 1px;
+	border-spacing: 0px;
+	border-style: solid;
+	border-color: black;
+	border-collapse: separate;
+	background-color: white;
+	padding: 0px;
+	margin: 0px;
+}
+
+table th {
+  width: 50px;	
+}
+
+table td {
+  height: 50px;	
+}
