@@ -18,10 +18,9 @@ var PairStair = function () {
 	function workingGrid() {
 		var matrix = [];
 		rows.each(function (index) { 
-			var cells = $(this).find("td"), elements;
+			var cells = $(this).find("td"), elements = [];
 			if (typeof cells !== "undefined") {
 				cells.each(function (cellIndex) {
-					elements = [];
 					elements[cellIndex] = $(this);
 				});
 				matrix[index - 1] = elements.slice(1);
