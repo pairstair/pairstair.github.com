@@ -1,59 +1,60 @@
-PairStair = function() {
-	var rows = $("table tr");
+var PairStair = function () {
+	"use strict";
+	
+	var rows = $("table tr"), obj = {
+		init : function () {
+			setupGrid();
+		}
+	};
 
 	function applyToGrid(grid, fn) {
-		$.each(grid, function(idx,row) {
-			 $.each(row, function() {
+		$.each(grid, function (idx, row) {
+			$.each(row, function () {
 				fn($(this));
 			});
 		});		
-	};
-
-	function setupGrid () {
-		applyToGrid(actionableGrid(), function(cell) { $(cell).click(function() { $(this).addClass("red"); }); });
-		applyToGrid(inertGrid(), function(cell) { $(cell).addClass("black"); });	
+	}
+	
+	function workingGrid() {
+		var matrix = [];
+		rows.each(function (index) { 
+			var cells = $(this).find("td"), elements;
+			if (typeof cells !== "undefined") {
+				cells.each(function (cellIndex) {
+					elements = [];
+					elements[cellIndex] = $(this);
+				});
+				matrix[index - 1] = elements.slice(1);
+			}
+		});
+		return matrix;
 	}
 	
 	function inertGrid() {
-		var unactionable = new Array();
+		var unactionable = [], grid = workingGrid();
 		
-		$.each(workingGrid(), function(idx, row) {
-			unactionable.push(row.slice(0, idx+1));
+		$.each(grid, function (idx, row) {
+			unactionable.push(row.slice(0, idx + 1));
 		});
 		
 		return unactionable;
 	}
 	
 	function actionableGrid() {
-		var actionable = new Array();
+		var actionable = [], grid = workingGrid();
 		
-		$.each(workingGrid(), function(idx, row) {
-			actionable.push(row.slice(idx+1));
+		$.each(grid, function (idx, row) {
+			actionable.push(row.slice(idx + 1));
 		});
 		
 		return actionable;
 	}	
+
 	
-	function workingGrid () {
-		var matrix = new Array();
-		rows.each(function(index) { 
-			var cells = $(this).find("td");
-			if(typeof cells != "undefined") {
-				elements = new Array();
-				cells.each(function(cellIndex) {
-					elements[cellIndex]=$(this);
-				});
-				matrix[index-1] = elements.slice(1);
-			}
-		});
-		return matrix;
+	function setupGrid() {
+		applyToGrid(actionableGrid(), function (cell) { $(cell).click(function () { $(this).addClass("red"); }); });
+		applyToGrid(inertGrid(), function (cell) { $(cell).addClass("black"); });	
 	}
 	
-	var obj = {
-		init : function() {
-			setupGrid();
-		}
-	};
-	
 	return obj;
-}
+};
