@@ -4,6 +4,7 @@ var PairStair = function () {
 	var rows = $("table tr"), obj = {
 		init : function () {
 			setupGrid();
+			dragThoseHeels();
 		}
 	};
 
@@ -52,8 +53,18 @@ var PairStair = function () {
 	
 	function setupGrid() {
 		applyToGrid(actionableGrid(), function (cell) { $(cell).click(function () { $(this).addClass("red"); }); });
+		applyToGrid(actionableGrid(), function (cell) { 
+			$(cell).droppable({ drop: function (event, ui) { 
+									$(this).addClass("red"); 
+								}}); 
+		});
 		applyToGrid(inertGrid(), function (cell) { $(cell).addClass("black"); });	
 	}
+	
+	function dragThoseHeels() {
+		$( "#draggable" ).draggable();
+	}
+	
 	
 	return obj;
 };

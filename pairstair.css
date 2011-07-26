@@ -10,11 +10,11 @@ table, table th, table td, table tr {
 }
 
 table th {
-  width: 50px;	
+  width: 80px;	
 }
 
 table td {
-  height: 50px;	
+  height: 80px;	
 }
 
 table td.black {
@@ -24,3 +24,5 @@ table td.black {
 table td.red {
 	background-color: red;
 }
+
+#draggable { width: 100px; height: 100px; padding: 0.5em; float: left; margin: 10px 10px 10px 0; }
