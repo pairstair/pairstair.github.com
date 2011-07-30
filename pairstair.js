@@ -4,7 +4,7 @@ var PairStair = function () {
 	var rows = $("table tr"), obj = {
 		init : function () {
 			setupGrid();
-			dragThoseHeels();
+			setUpDraggableDays();
 		}
 	};
 
@@ -48,23 +48,28 @@ var PairStair = function () {
 		});
 		
 		return actionable;
-	}	
-
+	}
 	
 	function setupGrid() {
-		applyToGrid(actionableGrid(), function (cell) { $(cell).click(function () { $(this).addClass("red"); }); });
 		applyToGrid(actionableGrid(), function (cell) { 
-			$(cell).droppable({ drop: function (event, ui) { 
-									$(this).addClass("red"); 
-								}}); 
+			$(cell).droppable({
+				 drop: function (event, ui) { 
+					$(this).addClass("red"); 
+				}
+			}); 
 		});
 		applyToGrid(inertGrid(), function (cell) { $(cell).addClass("black"); });	
 	}
 	
-	function dragThoseHeels() {
-		$( "#draggable" ).draggable();
+	function setUpDraggableDays() {
+		var days = $( "#draggable" );
+		$( "#draggable" ).draggable({ 
+			revert: true,
+			snap: true,
+			zIndex: 2700,
+			revertDuration: 0	
+		});
 	}
-	
 	
 	return obj;
 };
