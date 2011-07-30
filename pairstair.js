@@ -55,15 +55,27 @@ var PairStair = function () {
 			$(cell).droppable({
 				 drop: function (event, ui) { 
 					$(this).addClass("red"); 
+					$(this).append(addTheDayOfTheWeekToTheChart(ui));
 				}
 			}); 
 		});
 		applyToGrid(inertGrid(), function (cell) { $(cell).addClass("black"); });	
 	}
 	
+	function addTheDayOfTheWeekToTheChart(ui){
+		return function(index, existingDays) {
+			if(existingDays !== "" && existingDays.indexOf(ui.draggable.text()) !== -1)	 {
+				return;	
+			} else if(existingDays !== "") {
+				return "& " + ui.draggable.text();
+			} else {
+				return ui.draggable.text();
+			}
+		}	
+	}
+	
 	function setUpDraggableDays() {
-		var days = $( "#draggable" );
-		$( "#draggable" ).draggable({ 
+		$( "#draggable p" ).draggable({ 
 			revert: true,
 			snap: true,
 			zIndex: 2700,

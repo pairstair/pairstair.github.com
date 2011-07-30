@@ -2,10 +2,12 @@ do it
 [x] Make an empty grid
 [x] Black out the bottom of the grid
 [x] Clicking in a cell colours it in red
-[] Show the days of the week
-[] Drag a day onto the grid and display it
-[] Don't let a day be dragged onto any black square
-[] Don't let 2 days be dragged onto the same square
+[x] Show the days of the week
+[x] Drag a day onto the grid and display it
+[x] Don't let a day be dragged onto any black square
+[x] Allow more than one day to be added to a square
+[x] Don't allow the same day to be added twice to a square
+[] Select the day from some sort of date picker
 [] Save the state across a refresh
 [] Add a new name to the matrix
 [] Persist to server
