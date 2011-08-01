@@ -11,7 +11,7 @@ do it
 [x] Save the state across a refresh
 [x] Load the state after the refresh
 [] Store state as an array of days
-[] Reset the saved state to blank
+[x] Reset the saved state to blank
 [] Show the pair stair for multiple weeks
 [] Show stats of how often people paired together
 [] Add a new name to the matrix
