@@ -22,7 +22,7 @@ var store = function(){
 	return obj;
 }();
 
-var Cell = function(cell) {
+var PairingCombination = function(cell) {
 	
 	function pairNames()  {
 		var pairColumnName = cell[0].cellIndex;
@@ -127,15 +127,15 @@ var PairStair = function () {
 	
 	function dayDropped(event, day){ 
 		var cell  = $(this);
-		var ourCell = Cell(cell);
+		var ourPairingCombination = PairingCombination(cell);
 		cell.append(addTheDayOfTheWeekToTheChart(day));				
-		ourCell.saveInto(store);
+		ourPairingCombination.saveInto(store);
 	}
 	
 	function loadPairings(cell) {
-		var ourCell = Cell(cell)
-		var previousDaysPaired = store.get(ourCell.pairNames());		
-		ourCell.update(previousDaysPaired);
+		var ourPairingCombination = PairingCombination(cell)
+		var previousDaysPaired = store.get(ourPairingCombination.pairNames());		
+		ourPairingCombination.update(previousDaysPaired);
 	}
 	
 	function setUpDraggableDays() {
