@@ -1,9 +1,7 @@
 var store = function(){
-	var obj = {
-		put : put, 
-		get : get,
-		reset : reset
-	};
+	var obj = { put : put, 
+		        get : get,
+		        reset : reset };
 	
 	function put(key, values) {
 		amplify.store(key, values);
@@ -23,10 +21,8 @@ var store = function(){
 }();
 
 var PairingCombination = function(cell) {
-	
 	function pairNames()  {
-		var pairColumnName = cell[0].cellIndex;
-		return cell.parent().find("td:first").text() + "-" + $(cell.parents().find("th")[pairColumnName]).text();
+		return cell.parent().find("td:first").text() + "-" + $(cell.parents().find("th")[cell[0].cellIndex]).text();
 	}
 	
 	function update(newValue) {
@@ -37,11 +33,9 @@ var PairingCombination = function(cell) {
 		store.put(pairNames(), cell.text())
 	}
 	
-	var obj = {
-			pairNames : pairNames,
-			update : update,
-			saveInto : saveInto
-	};
+	var obj = { pairNames : pairNames,
+			    update : update,
+			    saveInto : saveInto };
 				
 	return obj;	
 }
