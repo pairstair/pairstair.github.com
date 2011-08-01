@@ -56,6 +56,7 @@ var PairStair = function () {
 				 drop: dayDropped
 			}); 
 		});
+		applyToGrid(actionableGrid(), loadPairings)
 		applyToGrid(inertGrid(), function (cell) { $(cell).addClass("black"); });	
 	}
 	
@@ -76,12 +77,15 @@ var PairStair = function () {
 		cell.addClass("red"); 
 		cell.append(addTheDayOfTheWeekToTheChart(day));
 		amplify.store(pairNames(cell), cell.text())
-		alert("This is what's in the store " + amplify.store("Uday-Rob"))
 	}
 	
 	function pairNames(cell) {
 		var pairColumnName = cell[0].cellIndex;
 		return cell.parent().find("td:first").text() + "-" + $(cell.parents().find("th")[pairColumnName]).text();
+	}
+	
+	function loadPairings(cell) {
+		cell.text(amplify.store(pairNames(cell)));
 	}
 	
 	function setUpDraggableDays() {

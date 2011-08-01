@@ -8,7 +8,9 @@ do it
 [x] Allow more than one day to be added to a square
 [x] Don't allow the same day to be added twice to a square
 [] Select the day from some sort of date picker
-[] Save the state across a refresh
+[x] Save the state across a refresh
+[x] Load the state after the refresh
+[] Store state as an array of days
 [] Reset the saved state to blank
 [] Show the pair stair for multiple weeks
 [] Show stats of how often people paired together
