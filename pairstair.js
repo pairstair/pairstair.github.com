@@ -1,7 +1,8 @@
 var store = function(){
 	var obj = {
 		put : put, 
-		get : get
+		get : get,
+		reset : reset
 	};
 	
 	function put(key, values) {
@@ -9,7 +10,13 @@ var store = function(){
 	}
 	
 	function get(key) {
-		return amplify.store(key);
+		return amplify.store(key) || "";
+	}
+	
+	function reset() {
+		$.each(amplify.store(), function(key) { 
+			amplify.store(key, null);
+		}); 
 	}
 	
 	return obj;
@@ -46,6 +53,11 @@ var PairStair = function () {
 		init : function () {
 			setupGrid();
 			setUpDraggableDays();
+			$(".reset-stair").click(function() {
+				store.reset();
+				setupGrid();
+				setUpDraggableDays();
+			});			
 		}
 	};
 
@@ -122,7 +134,7 @@ var PairStair = function () {
 	
 	function loadPairings(cell) {
 		var ourCell = Cell(cell)
-		var previousDaysPaired = store.get(ourCell.pairNames());
+		var previousDaysPaired = store.get(ourCell.pairNames());		
 		ourCell.update(previousDaysPaired);
 	}
 	
