@@ -53,25 +53,35 @@ var PairStair = function () {
 	function setupGrid() {
 		applyToGrid(actionableGrid(), function (cell) { 
 			$(cell).droppable({
-				 drop: function (event, ui) { 
-					$(this).addClass("red"); 
-					$(this).append(addTheDayOfTheWeekToTheChart(ui));
-				}
+				 drop: dayDropped
 			}); 
 		});
 		applyToGrid(inertGrid(), function (cell) { $(cell).addClass("black"); });	
 	}
 	
-	function addTheDayOfTheWeekToTheChart(ui){
+	function addTheDayOfTheWeekToTheChart(day){
 		return function(index, existingDays) {
-			if(existingDays !== "" && existingDays.indexOf(ui.draggable.text()) !== -1)	 {
+			if(existingDays !== "" && existingDays.indexOf(day.draggable.text()) !== -1)	 {
 				return;	
 			} else if(existingDays !== "") {
-				return "& " + ui.draggable.text();
+				return " & " + day.draggable.text();
 			} else {
-				return ui.draggable.text();
+				return day.draggable.text();
 			}
 		}	
+	}
+	
+	function dayDropped(event, day){ 
+		var cell  = $(this);
+		cell.addClass("red"); 
+		cell.append(addTheDayOfTheWeekToTheChart(day));
+		amplify.store(pairNames(cell), cell.text())
+		alert("This is what's in the store " + amplify.store("Uday-Rob"))
+	}
+	
+	function pairNames(cell) {
+		var pairColumnName = cell[0].cellIndex;
+		return cell.parent().find("td:first").text() + "-" + $(cell.parents().find("th")[pairColumnName]).text();
 	}
 	
 	function setUpDraggableDays() {

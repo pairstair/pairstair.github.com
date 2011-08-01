@@ -9,6 +9,9 @@ do it
 [x] Don't allow the same day to be added twice to a square
 [] Select the day from some sort of date picker
 [] Save the state across a refresh
+[] Reset the saved state to blank
+[] Show the pair stair for multiple weeks
+[] Show stats of how often people paired together
 [] Add a new name to the matrix
 [] Persist to server
 [] Suggest pairs for the week
