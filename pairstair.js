@@ -1,4 +1,4 @@
-var Store = function(){
+var store = function(){
 	var obj = {
 		put : put, 
 		get : get
@@ -26,8 +26,8 @@ var Cell = function(cell) {
 		cell.text(newValue);
 	}
 	
-	function saveInto(amplify) {
-		amplify.store(pairNames(), cell.text())
+	function saveInto(store) {
+		store.put(pairNames(), cell.text())
 	}
 	
 	var obj = {
@@ -117,12 +117,12 @@ var PairStair = function () {
 		var cell  = $(this);
 		var ourCell = Cell(cell);
 		cell.append(addTheDayOfTheWeekToTheChart(day));				
-		ourCell.saveInto(amplify);
+		ourCell.saveInto(store);
 	}
 	
 	function loadPairings(cell) {
 		var ourCell = Cell(cell)
-		var previousDaysPaired = amplify.store(ourCell.pairNames());
+		var previousDaysPaired = store.get(ourCell.pairNames());
 		ourCell.update(previousDaysPaired);
 	}
 	
