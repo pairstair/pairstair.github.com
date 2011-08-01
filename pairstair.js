@@ -1,3 +1,44 @@
+var Store = function(){
+	var obj = {
+		put : put, 
+		get : get
+	};
+	
+	function put(key, values) {
+		amplify.store(key, values);
+	}
+	
+	function get(key) {
+		return amplify.store(key);
+	}
+	
+	return obj;
+}();
+
+var Cell = function(cell) {
+	
+	function pairNames()  {
+		var pairColumnName = cell[0].cellIndex;
+		return cell.parent().find("td:first").text() + "-" + $(cell.parents().find("th")[pairColumnName]).text();
+	}
+	
+	function update(newValue) {
+		cell.text(newValue);
+	}
+	
+	function saveInto(amplify) {
+		amplify.store(pairNames(), cell.text())
+	}
+	
+	var obj = {
+			pairNames : pairNames,
+			update : update,
+			saveInto : saveInto
+	};
+				
+	return obj;	
+}
+
 var PairStair = function () {
 	"use strict";
 	
@@ -74,18 +115,15 @@ var PairStair = function () {
 	
 	function dayDropped(event, day){ 
 		var cell  = $(this);
-		cell.addClass("red"); 
-		cell.append(addTheDayOfTheWeekToTheChart(day));
-		amplify.store(pairNames(cell), cell.text())
-	}
-	
-	function pairNames(cell) {
-		var pairColumnName = cell[0].cellIndex;
-		return cell.parent().find("td:first").text() + "-" + $(cell.parents().find("th")[pairColumnName]).text();
+		var ourCell = Cell(cell);
+		cell.append(addTheDayOfTheWeekToTheChart(day));				
+		ourCell.saveInto(amplify);
 	}
 	
 	function loadPairings(cell) {
-		cell.text(amplify.store(pairNames(cell)));
+		var ourCell = Cell(cell)
+		var previousDaysPaired = amplify.store(ourCell.pairNames());
+		ourCell.update(previousDaysPaired);
 	}
 	
 	function setUpDraggableDays() {
