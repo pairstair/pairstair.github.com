@@ -64,11 +64,9 @@ var PairStair = function () {
 	}
 	
 	function workingGrid() {
-		return _(rows).chain().map(function(item) { return $(item).find("td"); })
-			          		  .map(function(cells) { return _(cells).map(function(item) { return $(item); }) })
-					  		  .map(function(elements) { return elements.slice(1); })
-					  		  .filter(function(entry) { return entry.length > 0; })					
-		  			  		  .value();
+		return _(rows).map(function(row) { return _($(row).find("td")).map(function(item) { return $(item); }); })
+					  .map(function(elements) { return elements.slice(1); })
+					  .filter(function(entry) { return entry.length > 0; });
 	}
 	
 	function inertGrid() {
