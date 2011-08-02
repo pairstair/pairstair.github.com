@@ -11,7 +11,12 @@ var PairingCombination = function(cell) {
 		store.put(pairNames(), cell.text())
 	}
 	
-	var obj = { pairNames : pairNames, update : update, saveInto : saveInto };				
+	function loadFrom(store) {
+		var previousDaysPaired = store.get(pairNames());		
+		update(previousDaysPaired);
+	}
+	
+	var obj = { pairNames : pairNames, update : update, saveInto : saveInto, loadFrom : loadFrom };				
 	return obj;	
 }
 
@@ -72,15 +77,14 @@ var PairStair = function () {
 	
 	function dayDropped(event, day){ 
 		var cell = $(this);
-		var ourPairingCombination = PairingCombination(cell);
+		var pairingCombination = PairingCombination(cell);
 		cell.append(addTheDayOfTheWeekToTheChart(day));				
-		ourPairingCombination.saveInto(store);
+		pairingCombination.saveInto(store);
 	}
 	
 	function loadPairings(cell) {
 		var pairingCombination = PairingCombination(cell)
-		var previousDaysPaired = store.get(pairingCombination.pairNames());		
-		pairingCombination.update(previousDaysPaired);
+		pairingCombination.loadFrom(store);
 	}
 	
 	function setUpDraggableDays() {
