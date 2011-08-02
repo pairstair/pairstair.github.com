@@ -7,11 +7,12 @@ do it
 [x] Don't let a day be dragged onto any black square
 [x] Allow more than one day to be added to a square
 [x] Don't allow the same day to be added twice to a square
-[] Select the day from some sort of date picker
 [x] Save the state across a refresh
 [x] Load the state after the refresh
-[] Store state as an array of days
 [x] Reset the saved state to blank
+[x] Introduce underscore.js to simplify some of the collections stuff
+[] Select the day from some sort of date picker
+[] Store state as an array of days
 [] Show the pair stair for multiple weeks
 [] Show stats of how often people paired together
 [] Add a new name to the matrix

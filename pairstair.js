@@ -1,25 +1,3 @@
-var store = function(){
-	var obj = { put : put, 
-		        get : get,
-		        reset : reset };
-	
-	function put(key, values) {
-		amplify.store(key, values);
-	}
-	
-	function get(key) {
-		return amplify.store(key) || "";
-	}
-	
-	function reset() {
-		$.each(amplify.store(), function(key) { 
-			amplify.store(key, null);
-		}); 
-	}
-	
-	return obj;
-}();
-
 var PairingCombination = function(cell) {
 	function pairNames()  {
 		return cell.parent().find("td:first").text() + "-" + $(cell.parents().find("th")[cell[0].cellIndex]).text();
@@ -33,10 +11,7 @@ var PairingCombination = function(cell) {
 		store.put(pairNames(), cell.text())
 	}
 	
-	var obj = { pairNames : pairNames,
-			    update : update,
-			    saveInto : saveInto };
-				
+	var obj = { pairNames : pairNames, update : update, saveInto : saveInto };				
 	return obj;	
 }
 
@@ -70,19 +45,15 @@ var PairStair = function () {
 	}
 	
 	function inertGrid() {
-		return _(workingGrid()).map(function(row, idx) { return row.slice(0, idx +1) });
+		return _(workingGrid()).map(function(row, idx) { return row.slice(0, idx+1) });
 	}
 	
 	function actionableGrid() {
-		return _(workingGrid()).map(function(row, idx) { return row.slice(idx + 1);  });
+		return _(workingGrid()).map(function(row, idx) { return row.slice(idx+1);  });
 	}
 	
 	function setupGrid() {
-		applyToGrid(actionableGrid(), function (cell) { 
-			$(cell).droppable({
-				 drop: dayDropped
-			}); 
-		});
+		applyToGrid(actionableGrid(), function (cell) { $(cell).droppable({ drop: dayDropped }); });
 		applyToGrid(actionableGrid(), loadPairings)
 		applyToGrid(inertGrid(), function (cell) { $(cell).addClass("black"); });	
 	}
@@ -100,16 +71,16 @@ var PairStair = function () {
 	}
 	
 	function dayDropped(event, day){ 
-		var cell  = $(this);
+		var cell = $(this);
 		var ourPairingCombination = PairingCombination(cell);
 		cell.append(addTheDayOfTheWeekToTheChart(day));				
 		ourPairingCombination.saveInto(store);
 	}
 	
 	function loadPairings(cell) {
-		var ourPairingCombination = PairingCombination(cell)
-		var previousDaysPaired = store.get(ourPairingCombination.pairNames());		
-		ourPairingCombination.update(previousDaysPaired);
+		var pairingCombination = PairingCombination(cell)
+		var previousDaysPaired = store.get(pairingCombination.pairNames());		
+		pairingCombination.update(previousDaysPaired);
 	}
 	
 	function setUpDraggableDays() {
