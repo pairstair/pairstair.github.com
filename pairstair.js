@@ -4,11 +4,12 @@ var PairingCombination = function(cell) {
 	}
 	
 	function add(day) {
-		var days = cell.text().split(" & ")
+		var days = _(cell.text().split(" & ")).reject(function(day) { return day == "" })
 		if(! _.include(days, day.name())) {
 			days.push(day.name());
 			cell.text(days.join(" & "));
-		}		
+		}
+		return obj;		
 	}
 	
 	function update(newValue) {
@@ -16,7 +17,7 @@ var PairingCombination = function(cell) {
 	}
 	
 	function saveInto(store) {
-		store.put(lookupKey(), cell.text())
+		store.put(lookupKey(), cell.text());
 	}
 	
 	function loadFrom(store) {
@@ -80,9 +81,7 @@ var PairStair = function () {
 	}
 	
 	function dayDropped(event, dayElement){ 
-		var pairingCombination = PairingCombination($(this));
-		pairingCombination.add(Day(dayElement));			
-		pairingCombination.saveInto(store);
+		PairingCombination($(this)).add(Day(dayElement)).saveInto(store);			
 	}
 	
 	function loadPairings(cell) {
