@@ -20,6 +20,10 @@ var PairingCombination = function(cell) {
 	return obj;	
 }
 
+var Day = function(day) {
+	return { name : function() { return day.draggable.text() } };
+}
+
 var PairStair = function () {
 	"use strict";
 	
@@ -63,14 +67,15 @@ var PairStair = function () {
 		applyToGrid(inertGrid(), function (cell) { $(cell).addClass("black"); });	
 	}
 	
-	function addTheDayOfTheWeekToTheChart(day){
+	function addTheDayOfTheWeekToTheChart(dayElement){
+		var day = Day(dayElement)
 		return function(index, existingDays) {
-			if(existingDays !== "" && existingDays.indexOf(day.draggable.text()) !== -1)	 {
+			if(existingDays !== "" && existingDays.indexOf(day.name()) !== -1)	 {
 				return;	
 			} else if(existingDays !== "") {
-				return " & " + day.draggable.text();
+				return " & " + day.name();
 			} else {
-				return day.draggable.text();
+				return day.name();
 			}
 		}	
 	}
