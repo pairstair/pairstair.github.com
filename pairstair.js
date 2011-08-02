@@ -79,19 +79,6 @@ var PairStair = function () {
 		applyToGrid(inertGrid(), function (cell) { $(cell).addClass("black"); });	
 	}
 	
-	function addTheDayOfTheWeekToTheChart(dayElement){
-		var day = Day(dayElement)
-		return function(index, existingDays) {
-			if(existingDays !== "" && existingDays.indexOf(day.name()) !== -1)	 {
-				return;	
-			} else if(existingDays !== "") {
-				return " & " + day.name();
-			} else {
-				return day.name();
-			}
-		}	
-	}
-	
 	function dayDropped(event, dayElement){ 
 		var pairingCombination = PairingCombination($(this));
 		pairingCombination.add(Day(dayElement));			
