@@ -11,8 +11,8 @@ do it
 [x] Load the state after the refresh
 [x] Reset the saved state to blank
 [x] Introduce underscore.js to simplify some of the collections stuff
+[x] Store state as an array of days
 [] Select the day from some sort of date picker
-[] Store state as an array of days
 [] Show the pair stair for multiple weeks
 [] Show stats of how often people paired together
 [] Add a new name to the matrix
