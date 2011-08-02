@@ -1,5 +1,5 @@
 var PairingCombination = function(cell) {
-	function pairNames()  {
+	function lookupKey()  {
 		return cell.parent().find("td:first").text() + "-" + $(cell.parents().find("th")[cell[0].cellIndex]).text();
 	}
 	
@@ -8,15 +8,15 @@ var PairingCombination = function(cell) {
 	}
 	
 	function saveInto(store) {
-		store.put(pairNames(), cell.text())
+		store.put(lookupKey(), cell.text())
 	}
 	
 	function loadFrom(store) {
-		var previousDaysPaired = store.get(pairNames());		
+		var previousDaysPaired = store.get(lookupKey());		
 		update(previousDaysPaired);
 	}
 	
-	var obj = { pairNames : pairNames, update : update, saveInto : saveInto, loadFrom : loadFrom };				
+	var obj = { update : update, saveInto : saveInto, loadFrom : loadFrom };				
 	return obj;	
 }
 
