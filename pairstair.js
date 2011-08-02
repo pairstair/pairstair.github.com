@@ -19,21 +19,17 @@ var PairingCombination = function(cell) {
 		}
 		return obj;		
 	}
-	
-	function update(newValue) {
-		cell.text(newValue);
-	}
-	
+
 	function saveInto(store) {
-		store.put(lookupKey(), cell.text());
+		store.put(lookupKey(), daysInCell());
 	}
 	
 	function loadFrom(store) {
-		var previousDaysPaired = store.get(lookupKey());		
-		update(previousDaysPaired);
+		var previousDaysPaired = store.get(lookupKey()) || [];		
+		saveToCell(previousDaysPaired);
 	}
 	
-	var obj = { update : update, saveInto : saveInto, loadFrom : loadFrom, add : add };				
+	var obj = { saveInto : saveInto, loadFrom : loadFrom, add : add };				
 	return obj;	
 }
 
@@ -93,8 +89,7 @@ var PairStair = function () {
 	}
 	
 	function loadPairings(cell) {
-		var pairingCombination = PairingCombination(cell)
-		pairingCombination.loadFrom(store);
+		PairingCombination(cell).loadFrom(store);
 	}
 	
 	function setUpDraggableDays() {
