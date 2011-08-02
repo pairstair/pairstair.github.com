@@ -70,23 +70,11 @@ var PairStair = function () {
 	}
 	
 	function inertGrid() {
-		var unactionable = [], grid = workingGrid();
-		
-		$.each(grid, function (idx, row) {
-			unactionable.push(row.slice(0, idx + 1));
-		});
-		
-		return unactionable;
+		return _(workingGrid()).map(function(row, idx) { return row.slice(0, idx +1) });
 	}
 	
 	function actionableGrid() {
-		var actionable = [], grid = workingGrid();
-		
-		$.each(grid, function (idx, row) {
-			actionable.push(row.slice(idx + 1));
-		});
-		
-		return actionable;
+		return _(workingGrid()).map(function(row, idx) { return row.slice(idx + 1);  });
 	}
 	
 	function setupGrid() {
