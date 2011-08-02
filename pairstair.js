@@ -3,6 +3,14 @@ var PairingCombination = function(cell) {
 		return cell.parent().find("td:first").text() + "-" + $(cell.parents().find("th")[cell[0].cellIndex]).text();
 	}
 	
+	function add(day) {
+		var days = cell.text().split(" & ")
+		if(! _.include(days, day.name())) {
+			days.push(day.name());
+			cell.text(days.join(" & "));
+		}		
+	}
+	
 	function update(newValue) {
 		cell.text(newValue);
 	}
@@ -16,7 +24,7 @@ var PairingCombination = function(cell) {
 		update(previousDaysPaired);
 	}
 	
-	var obj = { update : update, saveInto : saveInto, loadFrom : loadFrom };				
+	var obj = { update : update, saveInto : saveInto, loadFrom : loadFrom, add : add };				
 	return obj;	
 }
 
@@ -84,10 +92,9 @@ var PairStair = function () {
 		}	
 	}
 	
-	function dayDropped(event, day){ 
-		var cell = $(this);
-		var pairingCombination = PairingCombination(cell);
-		cell.append(addTheDayOfTheWeekToTheChart(day));				
+	function dayDropped(event, dayElement){ 
+		var pairingCombination = PairingCombination($(this));
+		pairingCombination.add(Day(dayElement));			
 		pairingCombination.saveInto(store);
 	}
 	
