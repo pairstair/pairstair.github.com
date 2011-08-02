@@ -21,7 +21,11 @@ var PairingCombination = function(cell) {
 }
 
 var Day = function(day) {
-	return { name : function() { return day.draggable.text() } };
+	return { 
+		name : function() { 
+			return day.draggable.text() 
+		} 
+	};
 }
 
 var PairStair = function () {
