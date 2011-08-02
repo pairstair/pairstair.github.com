@@ -1,7 +1,5 @@
 var store = function(){
-	var obj = { put : put, 
-		        get : get,
-		        reset : reset };
+	var obj = { put : put, get : get, reset : reset };
 	
 	function put(key, values) {
 		amplify.store(key, values);
