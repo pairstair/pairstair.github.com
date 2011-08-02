@@ -3,11 +3,19 @@ var PairingCombination = function(cell) {
 		return cell.parent().find("td:first").text() + "-" + $(cell.parents().find("th")[cell[0].cellIndex]).text();
 	}
 	
+	function saveToCell(days) {
+		cell.text(days.join(" & "));
+	}
+	
+	function daysInCell() {
+		return _(cell.text().split(" & ")).reject(function(day) { return day == "" });
+	}
+	
 	function add(day) {
-		var days = _(cell.text().split(" & ")).reject(function(day) { return day == "" })
+		var days = daysInCell();
 		if(! _.include(days, day.name())) {
 			days.push(day.name());
-			cell.text(days.join(" & "));
+			saveToCell(days);
 		}
 		return obj;		
 	}
