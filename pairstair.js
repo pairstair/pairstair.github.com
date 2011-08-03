@@ -41,10 +41,22 @@ var Day = function(day) {
 	};
 }
 
+var Grid = function(rootElement) {
+	function rows() {
+		return rootElement.find("tr");
+	}
+	
+	var obj = {
+		rows : rows
+	};
+	return obj;
+}
+
 var PairStair = function () {
 	"use strict";
 	
-	var rows = $("table tr"), obj = {
+	var grid = Grid($("table"))	
+	var rows = grid.rows(), obj = {
 		init : function () {
 			setupGrid();
 			setUpDraggableDays();

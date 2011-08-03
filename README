@@ -12,10 +12,10 @@ do it
 [x] Reset the saved state to blank
 [x] Introduce underscore.js to simplify some of the collections stuff
 [x] Store state as an array of days
+[] Add a new name to the matrix
 [] Select the day from some sort of date picker
 [] Show the pair stair for multiple weeks
 [] Show stats of how often people paired together
-[] Add a new name to the matrix
 [] Persist to server
 [] Suggest pairs for the week
 [] Add in specialities
