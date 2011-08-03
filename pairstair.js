@@ -81,12 +81,47 @@ var Grid = function(rootElement) {
 	return obj;
 }
 
+var GridBuilder = function() {
+	var people = [];
+	var obj = {
+		add : function(person) {
+			people.push(person);
+			return this;
+		},
+		build : function() {
+			var html = "<table id=\"droppable\">";
+			html += buildHeader();
+			
+			html += _.reduce(people, function(acc, person) { 
+				return acc + "<tr><td>" + person + "</td>" + addEmptyCells() + "</tr>";
+			}, "")
+		
+			
+
+			html += "</table>"
+			
+			$(".pairstair").html(html);
+		}
+	};
+	
+	function addEmptyCells() {
+		return _.reduce(people, function(acc, person) { return acc + "<td></td>";  }, "")
+	}
+	
+	function buildHeader() {
+		return  _.reduce(people, function(acc, person) { return acc + "<th>" + person + "</th>"  }, "<tr><th>Name</th>") + "</tr>";
+	}
+	
+	return obj;
+}
+
 var PairStair = function () {
 	"use strict";
-	
+	GridBuilder().add("Dave").add("Mark").add("Rob").build();
 	var grid = Grid($("table"));	
 	var obj = {
 		init : function () {
+			
 			resetPairStair();
 			$(".reset-stair").click(function() {
 				store.reset();
