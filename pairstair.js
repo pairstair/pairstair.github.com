@@ -97,7 +97,7 @@ var PairStair = function () {
 	
 	var grid = Grid($("table"));
 	grid.init();	
-	var rows = grid.rows(), obj = {
+	var obj = {
 		init : function () {
 			setupGrid();
 			setUpDraggableDays();
