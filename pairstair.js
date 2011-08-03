@@ -99,11 +99,11 @@ var PairStair = function () {
 	grid.init();	
 	var obj = {
 		init : function () {
-			setupGrid();
+			grid.init();
 			setUpDraggableDays();
 			$(".reset-stair").click(function() {
 				store.reset();
-				setupGrid();
+				grid.init();
 				setUpDraggableDays();
 			});			
 		}
