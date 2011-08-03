@@ -46,8 +46,48 @@ var Grid = function(rootElement) {
 		return rootElement.find("tr");
 	}
 	
+	function workingGrid() {
+		return _(rows()).map(function(row) { return _($(row).find("td")).map(function(item) { return $(item); }); })
+					  .map(function(elements) { return elements.slice(1); })
+					  .filter(function(entry) { return entry.length > 0; });
+	}
+	
+	function actionableGrid() {
+		return _(workingGrid()).map(function(row, idx) { return row.slice(idx+1);  });
+	}	
+	
+	function inertGrid() {
+		return _(workingGrid()).map(function(row, idx) { return row.slice(0, idx+1) });
+	}
+	
+	function applyToGrid(grid, fn) {
+		$.each(grid, function (idx, row) {
+			$.each(row, function () {
+				fn($(this));
+			});
+		});		
+	}
+	
+	function setupGrid() {
+		applyToGrid(actionableGrid(), function (cell) { $(cell).droppable({ drop: dayDropped }); });
+		applyToGrid(actionableGrid(), loadPairings);
+		applyToGrid(inertGrid(), function (cell) { $(cell).addClass("black"); });	
+	}		
+	
+	function dayDropped(event, dayElement){ 
+		PairingCombination($(this)).add(Day(dayElement)).saveInto(store);			
+	}	
+	
+	function loadPairings(cell) {
+		PairingCombination(cell).loadFrom(store);
+	}	
+		
 	var obj = {
-		rows : rows
+		rows : rows,
+		workingGrid : workingGrid,
+		init : function() {
+			setupGrid();
+		}
 	};
 	return obj;
 }
@@ -55,7 +95,8 @@ var Grid = function(rootElement) {
 var PairStair = function () {
 	"use strict";
 	
-	var grid = Grid($("table"))	
+	var grid = Grid($("table"));
+	grid.init();	
 	var rows = grid.rows(), obj = {
 		init : function () {
 			setupGrid();
@@ -74,26 +115,15 @@ var PairStair = function () {
 				fn($(this));
 			});
 		});		
-	}
-	
-	function workingGrid() {
-		return _(rows).map(function(row) { return _($(row).find("td")).map(function(item) { return $(item); }); })
-					  .map(function(elements) { return elements.slice(1); })
-					  .filter(function(entry) { return entry.length > 0; });
-	}
-	
-	function inertGrid() {
-		return _(workingGrid()).map(function(row, idx) { return row.slice(0, idx+1) });
-	}
+	}	
 	
 	function actionableGrid() {
-		return _(workingGrid()).map(function(row, idx) { return row.slice(idx+1);  });
+		return _(grid.workingGrid()).map(function(row, idx) { return row.slice(idx+1);  });
 	}
 	
 	function setupGrid() {
 		applyToGrid(actionableGrid(), function (cell) { $(cell).droppable({ drop: dayDropped }); });
 		applyToGrid(actionableGrid(), loadPairings)
-		applyToGrid(inertGrid(), function (cell) { $(cell).addClass("black"); });	
 	}
 	
 	function dayDropped(event, dayElement){ 
