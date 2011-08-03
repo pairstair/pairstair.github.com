@@ -67,26 +67,15 @@ var Grid = function(rootElement) {
 			});
 		});		
 	}
-	
-	function setupGrid() {
-		applyToGrid(actionableGrid(), function (cell) { $(cell).droppable({ drop: dayDropped }); });
-		applyToGrid(actionableGrid(), loadPairings);
-		applyToGrid(inertGrid(), function (cell) { $(cell).addClass("black"); });	
-	}		
-	
-	function dayDropped(event, dayElement){ 
-		PairingCombination($(this)).add(Day(dayElement)).saveInto(store);			
-	}	
-	
-	function loadPairings(cell) {
-		PairingCombination(cell).loadFrom(store);
-	}	
+		
 		
 	var obj = {
 		rows : rows,
 		workingGrid : workingGrid,
-		init : function() {
-			setupGrid();
+		init : function(eventHandlers) {
+			applyToGrid(actionableGrid(), function (cell) { $(cell).droppable({ drop: eventHandlers.dayDropped }); });
+			applyToGrid(actionableGrid(), eventHandlers.loadPairings);
+			applyToGrid(inertGrid(), function (cell) { $(cell).addClass("black"); });
 		}
 	};
 	return obj;
@@ -95,15 +84,14 @@ var Grid = function(rootElement) {
 var PairStair = function () {
 	"use strict";
 	
-	var grid = Grid($("table"));
-	grid.init();	
+	var grid = Grid($("table"));	
 	var obj = {
 		init : function () {
-			grid.init();
+			grid.init({ dayDropped : dayDropped, loadPairings : loadPairings });
 			setUpDraggableDays();
 			$(".reset-stair").click(function() {
 				store.reset();
-				grid.init();
+				grid.init({ dayDropped : dayDropped, loadPairings : loadPairings });
 				setUpDraggableDays();
 			});			
 		}
