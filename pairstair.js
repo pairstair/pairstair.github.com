@@ -87,15 +87,18 @@ var PairStair = function () {
 	var grid = Grid($("table"));	
 	var obj = {
 		init : function () {
-			grid.init({ dayDropped : dayDropped, loadPairings : loadPairings });
-			setUpDraggableDays();
+			resetPairStair();
 			$(".reset-stair").click(function() {
 				store.reset();
-				grid.init({ dayDropped : dayDropped, loadPairings : loadPairings });
-				setUpDraggableDays();
+				resetPairStair();
 			});			
 		}
 	};
+	
+	function resetPairStair() {
+		grid.init({ dayDropped : dayDropped, loadPairings : loadPairings });
+		setUpDraggableDays();		
+	}
 
 	function applyToGrid(grid, fn) {
 		$.each(grid, function (idx, row) {
