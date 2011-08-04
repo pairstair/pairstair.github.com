@@ -90,14 +90,8 @@ var GridBuilder = function() {
 		},
 		build : function() {
 			var html = "<table id=\"droppable\">";
-			html += buildHeader();
-			
-			html += _.reduce(people, function(acc, person) { 
-				return acc + "<tr><td>" + person + "</td>" + addEmptyCells() + "</tr>";
-			}, "")
-		
-			
-
+			html += buildHeader();			
+			html += _.reduce(people, function(acc, person) { return acc + "<tr><td>" + person + "</td>" + addEmptyCells() + "</tr>"; }, "")
 			html += "</table>"
 			
 			$(".pairstair").html(html);
@@ -105,7 +99,7 @@ var GridBuilder = function() {
 	};
 	
 	function addEmptyCells() {
-		return _.reduce(people, function(acc, person) { return acc + "<td></td>";  }, "")
+		return _.reduce(people, function(acc, _) { return acc + "<td></td>";  }, "")
 	}
 	
 	function buildHeader() {
@@ -121,7 +115,6 @@ var PairStair = function () {
 	var grid = Grid($("table"));	
 	var obj = {
 		init : function () {
-			
 			resetPairStair();
 			$(".reset-stair").click(function() {
 				store.reset();
