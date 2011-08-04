@@ -10,12 +10,9 @@ do it
 [x] Save the state across a refresh
 [x] Load the state after the refresh
 [x] Reset the saved state to blank
-[x] Introduce underscore.js to simplify some of the collections stuff
-[x] Store state as an array of days
-[x] Dynamically generate the pair stair
-[x] Add a new name to the matrix
-[] Save the people in the stair across a browse refresh
-[] Remove a person from the stair
+[] Add a new name to the matrix
+[] Dynamically create the grid with as many names as we want
+[] Store state as an array of days
 [] Select the day from some sort of date picker
 [] Show the pair stair for multiple weeks
 [] Show stats of how often people paired together
@@ -25,7 +22,5 @@ do it
 [] Allow multiple day entries in a cell
 [] Show the days as sticky notes
 [] Show overlapping sticky notes if a cell has more than one entry
-[] Ability to remove a day from a pairing combination
-[] Handle two people with the same name
-[] Store the stuff in local storage in their own object rather than global namespace
-[] Create historical pair stair from git history
+[] Mingle plugin
+[] Hook the stair into git to see which commits the pair did

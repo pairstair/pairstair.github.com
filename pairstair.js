@@ -41,6 +41,28 @@ var Day = function(day) {
 	};
 }
 
+var DateStickies = function() {
+	function setUpDraggableDays() {		
+		$( "#draggable p" ).draggable({ 
+			revert: true,
+			snap: true,
+			zIndex: 2700,
+			revertDuration: 0	
+		});
+	}
+	
+	function dayDropped(event, dayElement){ 
+		PairingCombination($(this)).add(Day(dayElement)).saveInto(store);			
+	}
+	
+	var obj = {
+		setUpDraggableDays: setUpDraggableDays, 
+		dayDropped: dayDropped
+	}
+	
+	return obj;
+}
+
 var Grid = function(rootElement) {
 	function rows() {
 		return rootElement.find("tr");
@@ -124,26 +146,27 @@ var PairStair = function () {
 	"use strict";
 	GridBuilder().add("Dave").add("Mark").add("Rob").build();
 	var grid = Grid($("table"));	
+	var dateStickies = DateStickies();
 	var obj = {
 		init : function () {
-			resetPairStair();
+			resetPairStair(dateStickies);
 			$(".reset-stair").click(function() {
 				store.reset();
-				resetPairStair();
+				resetPairStair(dateStickies);
 			});		
 			
 			$("#add-new-person").click(function(e) {
 				grid.toGridBuilder().add($("#new-person").val()).build();
 				grid = Grid($("table"));
-				resetPairStair();
+				resetPairStair(dateStickies);
 				e.preventDefault();
 			});	
 		}
 	};
 	
-	function resetPairStair() {
-		grid.init({ dayDropped : dayDropped, loadPairings : loadPairings });
-		setUpDraggableDays();		
+	function resetPairStair(dateStickies) {
+		grid.init({ dayDropped : dateStickies.dayDropped, loadPairings : loadPairings });
+		dateStickies.setUpDraggableDays();		
 	}
 
 	function applyToGrid(grid, fn) {
@@ -158,26 +181,8 @@ var PairStair = function () {
 		return _(grid.workingGrid()).map(function(row, idx) { return row.slice(idx+1);  });
 	}
 	
-	function setupGrid() {
-		applyToGrid(actionableGrid(), function (cell) { $(cell).droppable({ drop: dayDropped }); });
-		applyToGrid(actionableGrid(), loadPairings)
-	}
-	
-	function dayDropped(event, dayElement){ 
-		PairingCombination($(this)).add(Day(dayElement)).saveInto(store);			
-	}
-	
 	function loadPairings(cell) {
 		PairingCombination(cell).loadFrom(store);
-	}
-	
-	function setUpDraggableDays() {
-		$( "#draggable p" ).draggable({ 
-			revert: true,
-			snap: true,
-			zIndex: 2700,
-			revertDuration: 0	
-		});
 	}
 	
 	return obj;
