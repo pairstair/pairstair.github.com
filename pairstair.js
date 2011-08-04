@@ -42,7 +42,23 @@ var Day = function(day) {
 }
 
 var DateStickies = function() {
+	var weekday=new Array(7);
+	weekday[0]="Sunday";
+	weekday[1]="Monday";
+	weekday[2]="Tuesday";
+	weekday[3]="Wednesday";
+	weekday[4]="Thursday";
+	weekday[5]="Friday";
+	weekday[6]="Saturday";
+	date = new Date();
+	
 	function setUpDraggableDays() {		
+		_.each($( "#draggable p"), function(day){
+			if($(day).text() === weekday[date.getDay()]) {
+				$(day).addClass("today")
+			}
+		});
+
 		$( "#draggable p" ).draggable({ 
 			revert: true,
 			snap: true,
@@ -144,7 +160,7 @@ var GridBuilder = function() {
 
 var PairStair = function () {
 	"use strict";
-	GridBuilder().add("Dave").add("Mark").add("Rob").build();
+	GridBuilder().add("Dave").add("Mark").add("Liz").build();
 	var grid = Grid($("table"));	
 	var dateStickies = DateStickies();
 	var obj = {

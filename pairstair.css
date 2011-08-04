@@ -27,6 +27,10 @@ table td.red {
 	text-align: center;
 }
 
+.today {
+	background-color: #98CF71;
+}
+
 #draggable p { 
 	width: 80px; 
 	height: 30px; 
