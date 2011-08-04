@@ -24,3 +24,6 @@ do it
 [] Show the days as sticky notes
 [] Show overlapping sticky notes if a cell has more than one entry
 [] Ability to remove a day from a pairing combination
+[] Handle two people with the same name
+[] Store the stuff in local storage in their own object rather than global namespace
+[] Create historical pair stair from git history

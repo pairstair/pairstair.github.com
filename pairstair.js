@@ -67,6 +67,16 @@ var Grid = function(rootElement) {
 			});
 		});		
 	}
+	
+	function toGridBuilder() {
+		var currentPeople = _.map(rootElement.find("tr th").splice(1), function(person) { return $(person).text(); });
+		
+		var gridBuilder = GridBuilder();
+		$.each(currentPeople, function(index, person) {
+			gridBuilder.add(person);
+		});
+		return gridBuilder; 
+	}
 		
 		
 	var obj = {
@@ -76,7 +86,8 @@ var Grid = function(rootElement) {
 			applyToGrid(actionableGrid(), function (cell) { $(cell).droppable({ drop: eventHandlers.dayDropped }); });
 			applyToGrid(actionableGrid(), eventHandlers.loadPairings);
 			applyToGrid(inertGrid(), function (cell) { $(cell).addClass("black"); });
-		}
+		},
+		toGridBuilder : toGridBuilder
 	};
 	return obj;
 }
@@ -119,7 +130,14 @@ var PairStair = function () {
 			$(".reset-stair").click(function() {
 				store.reset();
 				resetPairStair();
-			});			
+			});		
+			
+			$("#add-new-person").click(function(e) {
+				grid.toGridBuilder().add($("#new-person").val()).build();
+				grid = Grid($("table"));
+				resetPairStair();
+				e.preventDefault();
+			});	
 		}
 	};
 	
