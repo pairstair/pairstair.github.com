@@ -1,3 +1,13 @@
+var PairingCombination = function(cell) {
+	function lookupKey()  {
+		var person1 = cell.parent().find("td:first").text() 
+		var person2 = $(cell.parents().find("th")[cell[0].cellIndex]).text();
+		return [person1, person2]
+	}
+	
+	var obj = { lookupKey : lookupKey };				
+	return obj;	
+}
 
 var Grid = function(rootElement) {
 	function rows() {
