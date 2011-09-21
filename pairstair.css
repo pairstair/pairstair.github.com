@@ -16,6 +16,7 @@ table th {
 table td {
   height: 45px;	
   max-width: 90px;
+  text-align: center;
 }
 
 table td.black {

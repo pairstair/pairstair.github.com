@@ -1,11 +1,15 @@
 var PairingCombination = function(cell) {
 	function lookupKey()  {
-		var person1 = cell.parent().find("td:first").text() 
+		var person1 = cell.parent().find("td:first").text() ;
 		var person2 = $(cell.parents().find("th")[cell[0].cellIndex]).text();
-		return [person1, person2]
+		return [person1.toLowerCase(), person2.toLowerCase()]
 	}
 	
-	var obj = { lookupKey : lookupKey };				
+	function set(daysSincePaired) {
+		cell.text(daysSincePaired);
+	}
+	
+	var obj = { lookupKey : lookupKey, set : set };				
 	return obj;	
 }
 
@@ -37,10 +41,17 @@ var Grid = function(rootElement) {
 	}
 	
 	function fillInPairDays(data) {
-		var cells = _.map(actionableGrid(), function(cell) {return PairingCombination(cell)})
+		var cells = _(actionableGrid()).chain().map(function(row) {return _.map(row, function(cell) {return PairingCombination($(cell)); } )}).flatten().value();
+
 		_.each(data, function(person) {
-			var pairs = _.filter(cells, function(cell){return cell.lookupKey()[0] === person});
-			console.log(cells);
+			var availablePairs = _.filter(cells, function(cell){
+				return cell.lookupKey()[0] === person.name;
+			});
+			
+			_.each(person.pairs, function(person){
+				var pair = _.find(availablePairs, function(candidate) { return candidate.lookupKey()[1] === person.name; })
+				pair.set(person.daysSincePaired);
+			});
 		});
 	}
 		
@@ -95,7 +106,8 @@ var PairStair = function () {
 			$.getJSON("http://localhost:3000/git/people?jsonpCallback=?", function(names) {
 				GridBuilder().addAll(names).build();	
 				var grid = Grid($("table"));
-				var data = [{"liz": [{"mark" : 6}, {"uday" : 88}]}];
+				var data = [{ "name" : "liz", "pairs": [{"name": "mark", "daysSincePaired" : 6}, {"name": "uday", "daysSincePaired" : 88}]}, 
+							{ "name" : "mark", "pairs": [{"name": "uday", "daysSincePaired" : 7}, {"name": "charles", "daysSincePaired" : 88}]}];
 				grid.init(data);
 			});			
 
