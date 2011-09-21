@@ -42,7 +42,7 @@ var Day = function(day) {
 }
 
 var DateStickies = function() {
-	var weekday=new Array(7);
+	var weekday=new Array(7); 
 	weekday[0]="Sunday";
 	weekday[1]="Monday";
 	weekday[2]="Tuesday";
@@ -121,8 +121,8 @@ var Grid = function(rootElement) {
 		rows : rows,
 		workingGrid : workingGrid,
 		init : function(eventHandlers) {
-			applyToGrid(actionableGrid(), function (cell) { $(cell).droppable({ drop: eventHandlers.dayDropped }); });
-			applyToGrid(actionableGrid(), eventHandlers.loadPairings);
+			console.log(workingGrid());
+			
 			applyToGrid(inertGrid(), function (cell) { $(cell).addClass("black"); });
 		},
 		toGridBuilder : toGridBuilder
@@ -136,6 +136,10 @@ var GridBuilder = function() {
 		add : function(person) {
 			people.push(person);
 			return this;
+		},
+		addAll: function(peeps) {
+		    _.each(peeps, function(person) {people.push(person);});
+		    return this;
 		},
 		build : function() {
 			var html = "<table id=\"droppable\">";
@@ -160,29 +164,34 @@ var GridBuilder = function() {
 
 var PairStair = function () {
 	"use strict";
-	GridBuilder().add("Dave").add("Mark").add("Liz").build();
-	var grid = Grid($("table"));	
-	var dateStickies = DateStickies();
+		
 	var obj = {
 		init : function () {
-			resetPairStair(dateStickies);
-			$(".reset-stair").click(function() {
-				store.reset();
-				resetPairStair(dateStickies);
-			});		
+			$.getJSON("http://localhost:3000/git/people?jsonpCallback=?", function(data) {
+				GridBuilder().addAll(data).build();	
+				var grid = Grid($("table"));
+				
+				resetPairStair(grid);
+				$(".reset-stair").click(function() {
+					store.reset();
+					resetPairStair(dateStickies);
+				});		
+
+				$("#add-new-person").click(function(e) {
+					grid.toGridBuilder().add($("#new-person").val()).build();
+					grid = Grid($("table"));
+					resetPairStair(grid);
+					e.preventDefault();
+				});				
+				
+			});			
 			
-			$("#add-new-person").click(function(e) {
-				grid.toGridBuilder().add($("#new-person").val()).build();
-				grid = Grid($("table"));
-				resetPairStair(dateStickies);
-				e.preventDefault();
-			});	
+
 		}
 	};
 	
-	function resetPairStair(dateStickies) {
-		grid.init({ dayDropped : dateStickies.dayDropped, loadPairings : loadPairings });
-		dateStickies.setUpDraggableDays();		
+	function resetPairStair(grid) {
+		grid.init();	
 	}
 
 	function applyToGrid(grid, fn) {
@@ -195,10 +204,6 @@ var PairStair = function () {
 	
 	function actionableGrid() {
 		return _(grid.workingGrid()).map(function(row, idx) { return row.slice(idx+1);  });
-	}
-	
-	function loadPairings(cell) {
-		PairingCombination(cell).loadFrom(store);
 	}
 	
 	return obj;
