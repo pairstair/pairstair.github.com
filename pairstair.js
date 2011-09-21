@@ -37,7 +37,11 @@ var Grid = function(rootElement) {
 	}
 	
 	function fillInPairDays(data) {
-		
+		var cells = _.map(actionableGrid(), function(cell) {return PairingCombination(cell)})
+		_.each(data, function(person) {
+			var pairs = _.filter(cells, function(cell){return cell.lookupKey()[0] === person});
+			console.log(cells);
+		});
 	}
 		
 	var obj = {
