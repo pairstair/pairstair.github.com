@@ -50,7 +50,9 @@ var Grid = function(rootElement) {
 			
 			_.each(person.pairs, function(person){
 				var pair = _.find(availablePairs, function(candidate) { return candidate.lookupKey()[1] === person.name; })
-				pair.set(person.daysSincePaired);
+				if(pair) {
+					pair.set(person.daysSincePaired);
+				}
 			});
 		});
 	}
