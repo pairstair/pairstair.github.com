@@ -107,14 +107,58 @@ var PairStair = function () {
 		init : function () {
 			$.getJSON("http://localhost:3000/git/people?jsonpCallback=?", function(names) {
 				GridBuilder().addAll(names).build();	
-				var grid = Grid($("table"));
-				var data = [{ "name" : "liz", "pairs": [{"name": "mark", "daysSincePaired" : 6}, {"name": "uday", "daysSincePaired" : 88}]}, 
-							{ "name" : "mark", "pairs": [{"name": "uday", "daysSincePaired" : 7}, {"name": "charles", "daysSincePaired" : 88}]}];
-				grid.init(data);
+
+				var gridData = [], namesCopy = names.slice(0);
+				var today = new Date();
+				today.setHours(0,0,0,0);
+				
+				(function getPairs() {
+					var name = namesCopy.shift();
+					
+					if(namesCopy.length == 0) {
+						var grid = Grid($("table"));									
+						grid.init(gridData);
+						
+					} else {
+						$.getJSON("http://localhost:3000/git/pairs/" + name + "?jsonpCallback=?", function(data) {
+							var peoplePairedWith = parsePairs(data);
+							
+							var pairs = [];
+							$.each(peoplePairedWith, function (person, options) {
+								pairs.push({name : person.toLowerCase(), daysSincePaired : (today - new Date(options.lastPaired)) / (1000*60*60*24)});
+							});
+							gridData.push({ name : name.toLowerCase(), pairs : pairs });
+							getPairs();
+						})						
+					}
+				})();
+				
+				
+				
 			});			
 
 		}
 	};
+	
+	
+    function parsePairs(data) {
+      var pairs = {};
+      $.each(data, function(key, val) {
+        $.each(val, function(person, numberOfCommits) {
+          if(!pairs[person]) {
+            pairs[person] = { timesPaired : 0, numberOfCommits : 0, lastPaired : "0" };
+          }
+
+          if(new Date(pairs[person]["lastPaired"]) < new Date(key)) {
+            pairs[person]["lastPaired"] = key;
+          }
+
+          pairs[person]["timesPaired"] += 1;
+          pairs[person]["numberOfCommits"] += numberOfCommits;
+        });              		
+      }); 
+      return pairs;
+    }	
 
 	function applyToGrid(grid, fn) {
 		$.each(grid, function (idx, row) {
