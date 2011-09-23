@@ -9,7 +9,15 @@ var PairingCombination = function(cell) {
 		cell.text(daysSincePaired);
 	}
 	
-	var obj = { lookupKey : lookupKey, set : set };				
+	function get() {
+		return cell.text();
+	}
+	
+	function addClass(klass) {
+		cell.addClass(klass);
+	}
+	
+	var obj = { lookupKey : lookupKey, set : set, get : get, addClass: addClass };				
 	return obj;	
 }
 
@@ -20,8 +28,8 @@ var Grid = function(rootElement) {
 	
 	function workingGrid() {
 		return _(rows()).map(function(row) { return _($(row).find("td")).map(function(item) { return $(item); }); })
-					  .map(function(elements) { return elements.slice(1); })
-					  .filter(function(entry) { return entry.length > 0; });
+					    .map(function(elements) { return elements.slice(1); })
+					    .filter(function(entry) { return entry.length > 0; });
 	}
 	
 	function actionableGrid() {
@@ -55,6 +63,18 @@ var Grid = function(rootElement) {
 				}
 			});
 		});
+		
+		_.each(cells, function(cell) {
+			var value = cell.get();
+			if(value === '' || parseFloat(value) >= 60) {
+				cell.addClass("pairedALongTimeAgo");
+			} else if(parseFloat(value) >= 0 && parseFloat(value) <= 10) {
+				cell.addClass("pairedRecently")
+			} else {
+				cell.addClass("pairedAWhileAgo")
+			} 
+		});
+		
 	}
 		
 	var obj = {
@@ -94,7 +114,7 @@ var GridBuilder = function() {
 	}
 	
 	function buildHeader() {
-		return  _.reduce(people, function(columns, person) { return columns + "<th>" + person + "</th>"  }, "<tr><th>Name</th>") + "</tr>";
+		return  _.reduce(people, function(columns, person) { return columns + "<th><p>" + person + "</p></th>"  }, "<tr><th><p>Name</p></th>") + "</tr>";
 	}
 	
 	return obj;
@@ -109,8 +129,6 @@ var PairStair = function () {
 				GridBuilder().addAll(names).build();	
 
 				var gridData = [], namesCopy = names.slice(0);
-				var today = new Date();
-				today.setHours(0,0,0,0);
 				
 				(function getPairs() {
 					var name = namesCopy.shift();
@@ -121,24 +139,30 @@ var PairStair = function () {
 						
 					} else {
 						$.getJSON("http://localhost:3000/git/pairs/" + name + "?jsonpCallback=?", function(data) {
-							var peoplePairedWith = parsePairs(data);
-							
+							var peoplePairedWith = parsePairs(data);							
 							var pairs = [];
 							$.each(peoplePairedWith, function (person, options) {
-								pairs.push({name : person.toLowerCase(), daysSincePaired : (today - new Date(options.lastPaired)) / (1000*60*60*24)});
+								options.name = person.toLowerCase();
+								options.daysSincePaired = daysSinceLastPaired(options.lastPaired);
+								pairs.push(options);
 							});
 							gridData.push({ name : name.toLowerCase(), pairs : pairs });
 							getPairs();
 						})						
 					}
-				})();
-				
-				
-				
+				})();												
 			});			
-
 		}
 	};
+	
+	var daysSinceLastPaired = (function () {
+		var today = new Date();
+		today.setHours(0,0,0,0);
+		
+		return function(dateLastPaired) {
+			return (today - new Date(dateLastPaired)) / (1000*60*60*24);
+		};
+	}());
 	
 	
     function parsePairs(data) {

@@ -10,12 +10,13 @@ table, table th, table td, table tr {
 }
 
 table th {
-  width: 90px;	
+  width: 65px;	
 }
+
+
 
 table td {
   height: 45px;	
-  max-width: 90px;
   text-align: center;
 }
 
@@ -24,21 +25,22 @@ table td.black {
 }
 
 table td.red {
-	background-color: red;
-	text-align: center;
+	background-color: #FF0000;
+}
+
+table td.pairedRecently {
+	background-color: #F2A7A7;
+}
+
+table td.pairedAWhileAgo {
+	background-color: #E02B2B;
+}
+
+table td.pairedALongTimeAgo {
+	background-color: #FF0000;
 }
 
 .today {
 	background-color: #98CF71;
 }
 
-#draggable p { 
-	width: 80px; 
-	height: 30px; 
-	padding: 0; 
-	float: left; 
-	margin: 10px 10px 10px 0; 
-	border: 2px solid black;
-	text-align: center;
-	padding-top: 12px;
-}
