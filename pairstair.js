@@ -155,8 +155,17 @@ var PairStair = function () {
 		}
 	};
 	
-	function asyncLoop(collection, loopFn, completionFn) {
-		
+	function asyncLoop(collection, seedResult, loopFn, completionFn) {
+	  var copy = collection.slice(0);
+	  (function loop() {
+	    var item = copy.shift();
+	    
+	    if(copy.length == 0) {
+		  completionFn(seedResult);
+	    } else {
+		  loopFn(seedResult, loop);
+	    }	
+	  })();	
 	}
 	
 	var daysSinceLastPaired = (function () {
