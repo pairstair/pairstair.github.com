@@ -155,6 +155,10 @@ var PairStair = function () {
 		}
 	};
 	
+	function asyncLoop(collection, loopFn, completionFn) {
+		
+	}
+	
 	var daysSinceLastPaired = (function () {
 		var today = new Date();
 		today.setHours(0,0,0,0);
@@ -162,7 +166,7 @@ var PairStair = function () {
 		return function(dateLastPaired) {
 			return (today - new Date(dateLastPaired)) / (1000*60*60*24);
 		};
-	}());
+	})();
 	
 	
     function parsePairs(data) {
